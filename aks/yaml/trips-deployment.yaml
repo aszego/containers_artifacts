@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi
+  name: trips
   namespace: api
   labels:
-    app: poi
+    app: trips
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poi
+      app: trips
   template:
     metadata:
       labels:
-        app: poi
+        app: trips
     spec:
       containers:
-      - name: poi
-        image: registrybkt9373.azurecr.io/poi:latest
+      - name: trips
+        image: registrybkt9373.azurecr.io/trips:latest
         ports:
         - containerPort: 80
         resources:

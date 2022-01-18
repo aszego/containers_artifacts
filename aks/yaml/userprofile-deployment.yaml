@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi
+  name: userprofile
   namespace: api
   labels:
-    app: poi
+    app: userprofile
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: poi
+      app: userprofile
   template:
     metadata:
       labels:
-        app: poi
+        app: userprofile
     spec:
       containers:
-      - name: poi
-        image: registrybkt9373.azurecr.io/poi:latest
+      - name: userprofile
+        image: registrybkt9373.azurecr.io/userprofile:latest
         ports:
         - containerPort: 80
         resources:
