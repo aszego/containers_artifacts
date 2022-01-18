@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: poi
+  namespace: api
   labels:
     app: poi
 spec:
@@ -19,3 +20,13 @@ spec:
         image: registrybkt9373.azurecr.io/poi:latest
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            cpu: 1
+            memory: 256MB
+        env:
+          - name:  SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name:  sql
+                key:  password
