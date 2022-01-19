@@ -10,7 +10,7 @@ spec:
   - port: 80
     protocol: TCP
   selector:
-    run: userprofile
+    app: userprofile
 
 ---
 apiVersion: v1
@@ -25,4 +25,34 @@ spec:
   - port: 80
     protocol: TCP
   selector:
-    run: trips
+    app: trips
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java-service
+  labels:
+    run: user-java-service
+  namespace: api
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: user-java
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi-service
+  labels:
+    run: poi-service
+  namespace: api
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: poi
