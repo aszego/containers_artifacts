@@ -26,7 +26,7 @@ spec:
             memory: 256Mi
         env:
           - name: TRIPS_API_ENDPOINT
-            value: http://trips-service/
+            value: http://trips-service.api.svc.cluster.local/
           - name: USERPROFILE_API_ENDPOINT
-            value: http://userprofile-service/
+            value: http://userprofile-service.api.svc.cluster.local/
 
