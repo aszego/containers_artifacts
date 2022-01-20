@@ -18,31 +18,28 @@ spec:
       containers:
       - name: poi
         image: registrybkt9373.azurecr.io/poi:latest
-        ports:
-        - containerPort: 80
+        # command:
+        # - /bin/sh
+        # - -c
+        # - sleep 1d
         resources:
           limits:
-            cpu: 1
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 500m
             memory: 256Mi
-        env:
-          - name: SQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name:  sql
-                key:  password
-          - name: SQL_DBNAME
-            valueFrom:
-              configMapKeyRef:
-                key: sql_dbname
-                name: tripviewer-configmap
-          - name: SQL_USER
-            valueFrom:
-              configMapKeyRef:
-                key: sql_user
-                name: tripviewer-configmap
-          - name: SQL_SERVER
-            valueFrom:
-              configMapKeyRef:
-                key: sql_servername
-                name: tripviewer-configmap
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: secrets-store
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-kvname-system-msi"
 

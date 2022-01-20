@@ -56,3 +56,16 @@ spec:
     protocol: TCP
   selector:
     app: poi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+  namespace: web
+spec:
+  selector:
+    app: tripviewer
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer
