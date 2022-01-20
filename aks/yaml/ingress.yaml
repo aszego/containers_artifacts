@@ -2,80 +2,47 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: trips-ingress
-  # namespace: web
+  namespace: web
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
 spec:
   rules:
-  - http:
+  - host: aksohteam7.northeurope.cloudapp.azure.com
+    http:
       paths:
         - path: /
           backend:
-            serviceName: web-service
-            servicePort: 80
-          pathType: Exact
-        - path: /api/user
-          pathType: Prefix
-          backend:
-            serviceName: userprofile-service
-            servicePort: 80
-        - path: /api/user-java
-          pathType: Prefix
-          backend:
-            serviceName: user-java-service
-            servicePort: 80
-        - path: /api/trips
-          pathType: Prefix
-          backend:
-            serviceName: trips-service
-            servicePort: 80
-        - path: /api/poi
-          pathType: Prefix
-          backend:
-            serviceName: poi-service
+            serviceName: tripviewer
             servicePort: 80
 
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: web-service
-spec:
-  type: ExternalName
-  externalName: tripviewer.web.svc.cluster.local
 
 ---
-kind: Service
-apiVersion: v1
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: userprofile-service
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: api-ingress-poi
+  namespace: api
 spec:
-  type: ExternalName
-  externalName: userprofile-service.api.svc.cluster.local
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: user-java-service
-spec:
-  type: ExternalName
-  externalName: user-java-service.api.svc.cluster.local
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: trips-service
-spec:
-  type: ExternalName
-  externalName: trips-service.api.svc.cluster.local
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: poi-service
-spec:
-  type: ExternalName
-  externalName: poi-service.api.svc.cluster.local
+  rules:
+  - host: aksohteam7.northeurope.cloudapp.azure.com
+    http:
+      paths:
+      - backend:
+          serviceName: trips-service
+          servicePort: 80
+        path: /api/trips*
+      - backend:
+          serviceName: poi-service
+          servicePort: 80
+        path: /api/poi*
+      - backend:
+          serviceName: userprofile-service
+          servicePort: 80
+        path: /api/user*
+      - backend:
+          serviceName: user-java-service
+          servicePort: 80
+        path: /api/user-java*
