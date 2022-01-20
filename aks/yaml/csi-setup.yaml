@@ -1,0 +1,38 @@
+# This is a SecretProviderClass example using system-assigned identity to access your key vault
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: azure-kvname-system-msi
+  namespace: api
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"    # Set to true for using managed identity
+    userAssignedIdentityID: ""      # If empty, then defaults to use the system assigned identity on the VM
+    keyvaultName: kvOHteam7
+    cloudName: ""                   # [OPTIONAL for Azure] if not provided, the Azure environment defaults to AzurePublicCloud
+    objects:  |
+      array:
+        - |
+          objectName: sqlpassword
+          objectAlias: SQL_PASSWORD
+          objectType: secret        # object types: secret, key, or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: sqldbname
+          objectAlias: SQL_DBNAME
+          objectType: secret        # object types: secret, key, or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: sqluser
+          objectAlias: SQL_USER
+          objectType: secret        # object types: secret, key, or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: sqlserver
+          objectAlias: SQL_SERVER
+          objectType: secret        # object types: secret, key, or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+
+    tenantId: 95dc6252-ffb8-4edb-af1a-7ab09be1e478           # The tenant ID of the key vault

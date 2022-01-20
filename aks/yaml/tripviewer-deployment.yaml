@@ -22,7 +22,10 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            cpu: 1
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 500m
             memory: 256Mi
         env:
           - name: TRIPS_API_ENDPOINT
