@@ -46,12 +46,20 @@ namespace poi
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
-                    config.SetBasePath(Directory.GetCurrentDirectory());
+                    string basePath = Directory.GetCurrentDirectory();
+                    Console.WriteLine(basePath);
+                    config.SetBasePath(basePath);
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                     config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
                     config.AddEnvironmentVariables();
                     config.AddKeyPerFile(directoryPath: $"{secretsPath}", optional: true);
                     config.AddCommandLine(args);
+                    IConfigurationRoot configurationRoot = config.Build();
+                    Console.WriteLine(configurationRoot["SQL_DBNAME"]);
+                    Console.WriteLine(configurationRoot["SQL_SERVER"]);
+                    Console.WriteLine(configurationRoot["SQL_PASSWORD"]);
+                    Console.WriteLine(configurationRoot["SQL_USER"]);
+
                 })
                 .UseStartup<Startup>()
                 .UseUrls(POIConfiguration.GetUri(configuration));

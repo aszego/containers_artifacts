@@ -31,7 +31,10 @@ namespace poi.Utility
             var WEB_PORT = configuration.GetValue(typeof(string),"WEB_PORT","8080");
             var WEB_SERVER_BASE_URI = configuration.GetValue(typeof(string), "WEB_SERVER_BASE_URI", "http://localhost");
 
-            return WEB_SERVER_BASE_URI + ":" + WEB_PORT;
+            string finalUri = WEB_SERVER_BASE_URI + ":" + WEB_PORT;
+            Console.WriteLine($"URI: {finalUri}");
+
+            return finalUri;
         }
     }
 }
